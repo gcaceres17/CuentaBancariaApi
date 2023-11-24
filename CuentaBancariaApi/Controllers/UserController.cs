@@ -31,7 +31,7 @@ namespace CuentaBancariaApi.Controllers
         [HttpGet("ListUsers")]
         public ActionResult Get()
         {
-            var users = userService.getAllUsers();
+            var users = userService.getAllUser();
             if (users == null)
             {
                 return NotFound();

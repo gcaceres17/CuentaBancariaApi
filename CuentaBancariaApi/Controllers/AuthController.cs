@@ -23,11 +23,11 @@ namespace CuentaBancariaApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Autenticar([FromBody] UserAuthModel userModel)
+        public IActionResult Autenticar([FromBody] UserAuthModel userAuthModel)
         {
             try
             {
-                var usuarioAutenticado = userService.AutenticarUsuario(userModel.name, userModel.password);
+                var usuarioAutenticado = userService.AutenticarUsuario(userAuthModel.name, userAuthModel.password);
 
                 if (usuarioAutenticado != null)
                 {

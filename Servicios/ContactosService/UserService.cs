@@ -22,15 +22,29 @@ namespace Servicios.ContactosService
             return userDatos.obtenerUserById(id);
         }
 
-        public List<UserModel> getAllUsers() { 
-            
-            return userDatos.getAllUsers();
-        }
-
         public UserModel AutenticarUsuario(string userName, string password)
         {
-            return userDatos.AutenticarUsuario(userName, password);
+            try
+            {
+                
+                var usuarioAutenticado = userDatos.AutenticarUsuario(userName, password);
+
+                return usuarioAutenticado;
+            }
+            catch (Exception ex)
+            {
+                // Manejar excepciones según tus necesidades
+                Console.WriteLine($"Error al autenticar usuario: {ex.Message}");
+                return null;
+            }
         }
+
+        public List<UserModel> getAllUser() {
+
+            return userDatos.getAllUsers();
+
+        }
+        
 
         public string ObtenerTokenAutenticacion(UserModel userModel)
         {
