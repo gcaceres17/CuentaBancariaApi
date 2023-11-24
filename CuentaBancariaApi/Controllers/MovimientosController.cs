@@ -12,7 +12,7 @@ namespace CuentaBancariaApi.Controllers
         private MovimientoService movimientoService;
         public MovimientosController()
         {
-            movimientoService = new MovimientoService("Host=localhost;Port=5432;User Id=postgres;Password=gc.5435747;Database=parcialDos;");
+            movimientoService = new MovimientoService("Host=localhost;Port=5432;User Id=postgres;Password=gc.5435747;Database=parcialTres;");
         }
 
         // GET: api/<CuentaController>

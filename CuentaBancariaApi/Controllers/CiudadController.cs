@@ -10,7 +10,7 @@ namespace CuentaBancariaApi.Controllers
     public class CiudadController : ControllerBase
     {
 
-        private const string connectionString = "Host=localhost;Port=5432;User Id=postgres;Password=gc.5435747;Database=parcialDos;";
+        private const string connectionString = "Host=localhost;Port=5432;User Id=postgres;Password=gc.5435747;Database=parcialTres;";
         private CiudadService servicio;
 
         public CiudadController()

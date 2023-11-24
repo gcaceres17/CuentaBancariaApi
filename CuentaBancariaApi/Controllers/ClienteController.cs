@@ -12,7 +12,7 @@ namespace personasApi.Controllers
         private ClienteService clienteService;
         public ClienteController()
         {
-            clienteService = new ClienteService("Host=localhost;Port=5432;User Id=postgres;Password=gc.5435747;Database=parcialDos;");
+            clienteService = new ClienteService("Host=localhost;Port=5432;User Id=postgres;Password=gc.5435747;Database=parcialTres;");
         }
 
         // GET: api/<ClienteController>

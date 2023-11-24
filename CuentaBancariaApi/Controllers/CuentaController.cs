@@ -13,7 +13,7 @@ namespace CuentaBancariaApi.Controllers
         private CuentaService cuentaService;
         public CuentaController()
         {
-            cuentaService = new CuentaService("Host=localhost;Port=5432;User Id=postgres;Password=gc.5435747;Database=parcialDos;");
+            cuentaService = new CuentaService("Host=localhost;Port=5432;User Id=postgres;Password=gc.5435747;Database=parcialTres;");
         }
 
         // GET: api/<CuentaController>
