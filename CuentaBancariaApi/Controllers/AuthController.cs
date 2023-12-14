@@ -15,13 +15,14 @@ namespace CuentaBancariaApi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserService userService;
-
-        public AuthController(UserService userService)
+        UserService userService;
+        private readonly IConfiguration _configuration;
+        public AuthController()
         {
-            this.userService = userService;
-        }
 
+            userService = new UserService("Host=localhost;Port=5432;User Id=postgres;Password=gc.5435747;Database=parcialTres;", _configuration);
+        }
+        
         [HttpPost]
         public IActionResult Autenticar([FromBody] UserAuthModel userAuthModel)
         {

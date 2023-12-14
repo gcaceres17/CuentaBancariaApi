@@ -10,9 +10,10 @@ namespace CuentaBancariaApi.Controllers
     public class UserController : ControllerBase
     {
         UserService userService;
+        private readonly IConfiguration _configuration;
         public UserController() {
 
-            userService = new UserService("Host=localhost;Port=5432;User Id=postgres;Password=gc.5435747;Database=parcialTres;");
+            userService = new UserService("Host=localhost;Port=5432;User Id=postgres;Password=gc.5435747;Database=parcialTres;", _configuration);
         }
 
         // GET api/<PersonaController>/5

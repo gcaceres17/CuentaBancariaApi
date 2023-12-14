@@ -5,16 +5,21 @@ using System.Text;
 using Infraestructura.Datos;
 using Infraestructura.Modelos;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Configuration;
+
 
 namespace Servicios.ContactosService
 {
     public class UserService
     {
         private UserDatos userDatos;
+        private readonly IConfiguration _configuration;
 
-        public UserService(string cadenaConexion)
+
+        public UserService(string cadenaConexion, IConfiguration _configuration)
         {
             userDatos = new UserDatos(cadenaConexion);
+            _configuration = _configuration;
         }
 
         public UserModel ObtenerUserById(int id)
@@ -45,18 +50,6 @@ namespace Servicios.ContactosService
 
         }
         
-
-        public string ObtenerTokenAutenticacion(UserModel userModel)
-        {
-            if (userModel != null)
-            {
-                var token = CrearToken(userModel);
-                return token;
-            }
-
-            return null;
-        }
-
         public void InsertUser(UserInsertModel user)
         {
             ValidarDatos(user);
@@ -87,22 +80,48 @@ namespace Servicios.ContactosService
             }
         }
 
-        private string CrearToken(UserModel userModel)
+        public string ObtenerTokenAutenticacion(UserModel usuarioAutenticado)
         {
-            var key = Encoding.ASCII.GetBytes("E@!knadkjbad45678ad.ci@456akjd|!45a");
-            var handlerToken = new JwtSecurityTokenHandler();
-            var descriptorToken = new SecurityTokenDescriptor
+            if (usuarioAutenticado != null)
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, userModel.name),
-                    new Claim(ClaimTypes.Role, userModel.level)
-                }),
-                Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
-            };
-            var token = handlerToken.CreateToken(descriptorToken);
-            return handlerToken.WriteToken(token);
+                // Obtener más información del usuario (nombre, apellido, correo electrónico, etc.)
+                string nombre = usuarioAutenticado.name; // Ajusta esto según la propiedad real en tu modelo
+                string apellido = usuarioAutenticado.level; // Ajusta esto según la propiedad real en tu modelo
+
+                // Generar el token con información adicional
+                var token = CrearToken(usuarioAutenticado.name, nombre, apellido);
+
+                return token;
+            }
+
+            return null;
         }
+
+        private string CrearToken(string userName, string nombre, string apellido)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, userName),
+                new Claim("nombre", nombre),
+                new Claim("apellido", apellido),
+        
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.UtcNow.AddHours(1);
+
+            var token = new JwtSecurityToken(
+                _configuration["Jwt:Issuer"],
+                _configuration["Jwt:Audience"],
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+
     }
 }
